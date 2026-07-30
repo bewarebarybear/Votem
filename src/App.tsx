@@ -71,14 +71,12 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-black text-white font-mono p-4 max-w-md mx-auto flex flex-col justify-between">
-      {/* Header */}
       <div>
         <header className="flex justify-between items-center border-b border-white pb-3 mb-6">
           <h1 className="text-xl font-black tracking-widest">VOTEM</h1>
           <span className="text-xs tracking-wider text-neutral-400">{formattedDate}</span>
         </header>
 
-        {/* Current Question Section */}
         <main className="mb-8">
           <h2 className="text-2xl font-bold leading-snug mb-6">{currentData.question}</h2>
 
@@ -118,19 +116,30 @@ export default function App() {
           )}
         </main>
 
-        {/* Archive Section */}
         <section className="border-t border-neutral-800 pt-6">
           <h3 className="text-sm font-bold tracking-widest text-neutral-400 mb-4">ARCHIVE</h3>
           <div className="space-y-4">
-            {archive.map((item, index) => (
-              <div key={index} className="p-4 border border-neutral-800 rounded bg-neutral-950">
-                <div className="flex justify-between items-center text-xs text-neutral-500 mb-2">
-                  <span>{item.date}</span>
-                  <span className="text-green-400 border border-green-900 px-2 py-0.5 rounded text-[10px]">{item.outcome}</span>
+            {archive.map((item, index) => {
+              const itemTotal = item.yesVotes + item.noVotes;
+              const computedOutcome = 
+                item.yesVotes > item.noVotes 
+                  ? 'YES WINS' 
+                  : item.noVotes > item.yesVotes 
+                  ? 'NO WINS' 
+                  : 'TIE';
+
+              return (
+                <div key={index} className="p-4 border border-neutral-800 rounded bg-neutral-950">
+                  <div className="flex justify-between items-center text-xs text-neutral-500 mb-2">
+                    <span>{item.date}</span>
+                    <span className="text-green-400 border border-green-900 px-2 py-0.5 rounded text-[10px]">
+                      {computedOutcome} ({item.yesVotes} / {item.noVotes})
+                    </span>
+                  </div>
+                  <p className="text-sm font-medium">{item.question}</p>
                 </div>
-                <p className="text-sm font-medium">{item.question}</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </section>
       </div>
