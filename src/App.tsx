@@ -1,38 +1,47 @@
 import React, { useState, useEffect } from 'react';
 
-interface QuestionData {
+interface QuestionItem {
   date: string;
   question: string;
-  yesVotes: number;
-  noVotes: number;
-}
-
-interface ArchiveItem {
-  date: string;
-  question: string;
-  outcome: string;
   yesVotes: number;
   noVotes: number;
 }
 
 export default function App() {
-  const [currentData, setCurrentData] = useState<QuestionData>({
-    date: '2026-07-30',
-    question: 'Is artificial intelligence a net positive for humanity?',
-    yesVotes: 142,
-    noVotes: 89,
-  });
-
-  const [archive, setArchive] = useState<ArchiveItem[]>([
+  // Master list of scheduled questions
+  const questionsList: QuestionItem[] = [
+    {
+      date: '2026-07-31',
+      question: 'Should space exploration be prioritized over earth climate recovery?',
+      yesVotes: 95,
+      noVotes: 110,
+    },
+    {
+      date: '2026-07-30',
+      question: 'Is artificial intelligence a net positive for humanity?',
+      yesVotes: 142,
+      noVotes: 89,
+    },
     {
       date: '2026-07-29',
       question: 'Should remote work become the permanent global standard?',
-      outcome: 'YES WINS',
       yesVotes: 310,
       noVotes: 145,
     },
-  ]);
+  ];
 
+  // Helper to determine today's date based on 11:00 AM CET rollover if needed, 
+  // or standard YYYY-MM-DD format.
+  const getActiveQuestion = () => {
+    const todayStr = new Date().toISOString().split('T')[0];
+    const found = questionsList.find((q) => q.date === todayStr);
+    // Default to the first item if today's date isn't matched yet
+    return found || questionsList[0];
+  };
+
+  const activeQ = getActiveQuestion();
+
+  const [currentData, setCurrentData] = useState<QuestionItem>(activeQ);
   const [hasVoted, setHasVoted] = useState<boolean>(false);
   const [userChoice, setUserChoice] = useState<'yes' | 'no' | null>(null);
 
@@ -68,6 +77,9 @@ export default function App() {
     month: 'long',
     day: 'numeric',
   }).toUpperCase();
+
+  // Archive everything except the current active question
+  const archiveList = questionsList.filter((q) => q.date !== currentData.date);
 
   return (
     <div className="min-h-screen bg-black text-white font-mono p-4 max-w-md mx-auto flex flex-col justify-between">
@@ -119,13 +131,12 @@ export default function App() {
         <section className="border-t border-neutral-800 pt-6">
           <h3 className="text-sm font-bold tracking-widest text-neutral-400 mb-4">ARCHIVE</h3>
           <div className="space-y-4">
-            {archive.map((item, index) => {
-              const itemTotal = item.yesVotes + item.noVotes;
-              const computedOutcome = 
-                item.yesVotes > item.noVotes 
-                  ? 'YES WINS' 
-                  : item.noVotes > item.yesVotes 
-                  ? 'NO WINS' 
+            {archiveList.map((item, index) => {
+              const computedOutcome =
+                item.yesVotes > item.noVotes
+                  ? 'YES WINS'
+                  : item.noVotes > item.yesVotes
+                  ? 'NO WINS'
                   : 'TIE';
 
               return (
