@@ -1,0 +1,44 @@
+[
+  {
+    "date": "2026-08-04",
+    "question": "Do you give money to a homeless beggar?",
+    "yesVotes": 0,
+    "noVotes": 0
+  },
+  {
+    "date": "2026-08-03",
+    "question": "Have you ever stolen something in your adult life?",
+    "yesVotes": 0,
+    "noVotes": 0
+  },
+  {
+    "date": "2026-08-02",
+    "question": "Do you pee in the public swimming pool?",
+    "yesVotes": 0,
+    "noVotes": 0
+  },
+  {
+    "date": "2026-08-01",
+    "question": "Do you pee in the shower or bath?",
+    "yesVotes": 0,
+    "noVotes": 0
+  },
+  {
+    "date": "2026-07-31",
+    "question": "Should space exploration be prioritized over earth climate recovery?",
+    "yesVotes": 95,
+    "noVotes": 110
+  },
+  {
+    "date": "2026-07-30",
+    "question": "Is artificial intelligence a net positive for humanity?",
+    "yesVotes": 142,
+    "noVotes": 89
+  },
+  {
+    "date": "2026-07-29",
+    "question": "Should remote work become the permanent global standard?",
+    "yesVotes": 310,
+    "noVotes": 145
+  }
+]
