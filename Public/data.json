@@ -1,16 +1,20 @@
-{
-  "current": {
+[
+  {
+    "date": "2026-07-31",
+    "question": "Should space exploration be prioritized over earth climate recovery?",
+    "yesVotes": 95,
+    "noVotes": 110
+  },
+  {
     "date": "2026-07-30",
     "question": "Is artificial intelligence a net positive for humanity?",
     "yesVotes": 142,
     "noVotes": 89
   },
-  "archive": [
-    {
-      "date": "2026-07-29",
-      "question": "Should remote work become the permanent global standard?",
-      "yesVotes": 310,
-      "noVotes": 145
-    }
-  ]
-}
+  {
+    "date": "2026-07-29",
+    "question": "Should remote work become the permanent global standard?",
+    "yesVotes": 310,
+    "noVotes": 145
+  }
+]
