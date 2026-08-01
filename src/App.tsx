@@ -50,11 +50,10 @@ export default function App() {
 
   // Helper to determine today's active question safely by sorting dates
   const getActiveQuestion = () => {
-    const todayStr = new Date().toISOString().split('T')[0];
+    const todayStr = new Date().toLocaleDateString('en-CA'); // Local YYYY-MM-DD format
     const sorted = [...questionsList].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     const found = sorted.find((q) => q.date === todayStr);
-    // Default to the closest available or top sorted item if exact match isn't found
-    return found || sorted[0];
+    return found || sorted.find((q) => q.date <= todayStr) || sorted[0];
   };
 
   const activeQ = getActiveQuestion();
@@ -89,16 +88,16 @@ export default function App() {
   const yesPercent = totalVotes > 0 ? Math.round((currentData.yesVotes / totalVotes) * 100) : 50;
   const noPercent = totalVotes > 0 ? 100 - yesPercent : 50;
 
-  const formattedDate = new Date(currentData.date).toLocaleDateString('en-US', {
+  const formattedDate = new Date(currentData.date + 'T00:00:00').toLocaleDateString('en-US', {
     weekday: 'long',
     year: 'numeric',
     month: 'long',
     day: 'numeric',
   }).toUpperCase();
 
-  // Archive everything except the current active question, sorted newest to oldest
+  // Archive ONLY questions with dates strictly older than the current active question
   const archiveList = questionsList
-    .filter((q) => q.date !== currentData.date)
+    .filter((q) => q.date < currentData.date)
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   return (
