@@ -11,6 +11,24 @@ export default function App() {
   // Master list of scheduled questions
   const questionsList: QuestionItem[] = [
     {
+      date: '2026-08-03',
+      question: 'Have you ever stolen something in your life?',
+      yesVotes: 0,
+      noVotes: 0,
+    },
+    {
+      date: '2026-08-02',
+      question: 'Do you pee in the public swimming pool?',
+      yesVotes: 0,
+      noVotes: 0,
+    },
+    {
+      date: '2026-08-01',
+      question: 'Do you pee in the shower or bath?',
+      yesVotes: 0,
+      noVotes: 0,
+    },
+    {
       date: '2026-07-31',
       question: 'Should space exploration be prioritized over earth climate recovery?',
       yesVotes: 95,
@@ -30,13 +48,13 @@ export default function App() {
     },
   ];
 
-  // Helper to determine today's date based on 11:00 AM CET rollover if needed, 
-  // or standard YYYY-MM-DD format.
+  // Helper to determine today's active question safely by sorting dates
   const getActiveQuestion = () => {
     const todayStr = new Date().toISOString().split('T')[0];
-    const found = questionsList.find((q) => q.date === todayStr);
-    // Default to the first item if today's date isn't matched yet
-    return found || questionsList[0];
+    const sorted = [...questionsList].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    const found = sorted.find((q) => q.date === todayStr);
+    // Default to the closest available or top sorted item if exact match isn't found
+    return found || sorted[0];
   };
 
   const activeQ = getActiveQuestion();
@@ -78,8 +96,10 @@ export default function App() {
     day: 'numeric',
   }).toUpperCase();
 
-  // Archive everything except the current active question
-  const archiveList = questionsList.filter((q) => q.date !== currentData.date);
+  // Archive everything except the current active question, sorted newest to oldest
+  const archiveList = questionsList
+    .filter((q) => q.date !== currentData.date)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   return (
     <div className="min-h-screen bg-black text-white font-mono p-4 max-w-md mx-auto flex flex-col justify-between">
