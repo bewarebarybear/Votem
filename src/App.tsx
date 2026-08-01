@@ -25,8 +25,8 @@ export default function App() {
     {
       date: '2026-08-01',
       question: 'Do you pee in the shower or bath?',
-      yesVotes: 21,
-      noVotes: 57,
+      yesVotes: 58,
+      noVotes: 21,
     },
     {
       date: '2026-07-31',
